@@ -1,7 +1,9 @@
 import type { Channel, Message, ServerResponse } from "../types";
 
+const BASE_URL = import.meta.env.BE_URL || "http://localhost:3000";
+
 export const getChannel = async (id: string): Promise<ServerResponse<Channel>> => {
-  const response = await fetch(`http://localhost:3000/channel/${id}`, {
+  const response = await fetch(`${BASE_URL}/channel/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -11,7 +13,7 @@ export const getChannel = async (id: string): Promise<ServerResponse<Channel>> =
 };
 
 export const getChannelMessages = async (channelId: string): Promise<ServerResponse<{ messages: Message[] }>> => {
-  const response = await fetch(`http://localhost:3000/channel/${channelId}/messages`, {
+  const response = await fetch(`${BASE_URL}/channel/${channelId}/messages`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +23,7 @@ export const getChannelMessages = async (channelId: string): Promise<ServerRespo
 }
 
 export const createChannel = async (name: string): Promise<ServerResponse<{ channel: Channel }>> => {
-  const response = await fetch("http://localhost:3000/channel", {
+  const response = await fetch(`${BASE_URL}/channel`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -32,7 +34,7 @@ export const createChannel = async (name: string): Promise<ServerResponse<{ chan
 }
 
 export const getMeChannels = async (): Promise<ServerResponse<{ channels: Channel[] }>> => {
-  const response = await fetch("http://localhost:3000/channel/me", {
+  const response = await fetch(`${BASE_URL}/channel/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
