@@ -14,6 +14,7 @@ const pool = new Pool({
 });
 const db = drizzle({ client: pool });;
 
+const PORT = Number(process.env.PORT || 3000);
 const websocketInfo = new Map<string, { id: string, user: typeof usersTable.$inferSelect, send: (message: Static<typeof serverWsMessages>) => void, roomId?: string }>();
 
 const app = new Elysia()
@@ -496,7 +497,7 @@ const app = new Elysia()
       name: t.String(),
     })
   })
-  .listen(3000);
+  .listen(PORT);
 
 setInterval(async () => {
   let pendingUsers = await db.select().from(usersTable).where(and(eq(usersTable.status, "pending")));
