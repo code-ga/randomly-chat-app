@@ -24,3 +24,6 @@ services:
       - ./backend/.env
     depends_on:
       - postgres
+
+volumes:
+  postgres:
