@@ -1,0 +1,23 @@
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      - PORT=3000
+    ports:
+      - "${PORT}:3000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres
+
+volumes:
+  postgres:

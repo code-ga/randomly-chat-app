@@ -11,12 +11,4 @@ export default defineConfig({
     },
   },
   plugins: [reactRouter(), tsconfigPaths()],
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://backend:3000",
-        changeOrigin: true,
-      },
-    }
-  }
 });
