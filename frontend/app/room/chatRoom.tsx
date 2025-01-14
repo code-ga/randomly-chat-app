@@ -73,6 +73,7 @@ const ChatBox: React.FC = () => {
 
   // send typing event
   useEffect(() => {
+    if (window.client?.readyState !== window.client?.OPEN) return;
     window.client?.send(
       JSON.stringify({
         type: "typing",
@@ -156,11 +157,12 @@ const ChatBox: React.FC = () => {
       )}
       <div className="flex h-screen">
         <Sidebar users={users} inRoomUsers={inRoomUsers} />
-        <div className="flex-grow flex-col overflow-y-auto p-4">
-          {channelName && (
-            <h1 className="text-2xl font-bold mb-4">{channelName}</h1>
-          )}
+        <div className="flex-grow flex-col overflow-y-auto p-4 justify-between">
           <ul className="space-y-4">
+            {" "}
+            {channelName && (
+              <h1 className="text-2xl font-bold mb-4">{channelName}</h1>
+            )}
             {messages.map((message) => (
               <li key={message.id} className="flex">
                 <span className="text-gray-500">
@@ -169,13 +171,27 @@ const ChatBox: React.FC = () => {
                 <span className="ml-2">{message.content}</span>
               </li>
             ))}
+            <div ref={messagesEndRef} />
           </ul>
-          <div ref={messagesEndRef} />
-          <div className="fixed bottom-0 w-full">
-            <form
-              onSubmit={handleSubmit}
-              className="p-4 w-full flex max-w-6xl"
-            >
+          <div className="w-full">
+            {typingUsers.length > 0 && (
+              <span className="text-gray-500 ml-2 mb-2">
+                {typingUsers.length > 5
+                  ? `${typingUsers
+                      .slice(0, 5)
+                      .map(
+                        (id) => users.find((user) => user.id === id)?.username
+                      )
+                      .join(", ")} and ${typingUsers.length - 5} others`
+                  : typingUsers
+                      .map(
+                        (id) => users.find((user) => user.id === id)?.username
+                      )
+                      .join(", ")}{" "}
+                is typing
+              </span>
+            )}
+            <form onSubmit={handleSubmit} className="p-4 w-full flex max-w-6xl">
               <input
                 type="text"
                 value={newMessage}
@@ -207,23 +223,6 @@ const ChatBox: React.FC = () => {
                 Send
               </button>
             </form>
-            {typingUsers.length > 0 && (
-              <span className="text-gray-500 ml-2 mb-2">
-                {typingUsers.length > 5
-                  ? `${typingUsers
-                      .slice(0, 5)
-                      .map(
-                        (id) => users.find((user) => user.id === id)?.username
-                      )
-                      .join(", ")} and ${typingUsers.length - 5} others`
-                  : typingUsers
-                      .map(
-                        (id) => users.find((user) => user.id === id)?.username
-                      )
-                      .join(", ")}{" "}
-                is typing
-              </span>
-            )}
           </div>
         </div>
       </div>
