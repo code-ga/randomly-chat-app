@@ -1,6 +1,6 @@
 import type { User, ServerResponse } from "../types";
 
-const BASE_URL = import.meta.env.BE_URL || "http://localhost:3000";
+const BASE_URL = import.meta.env.DEV ? "http://localhost:3000" : "https://randomize-chat-app.nbth.hackclub.app";
 
 export const login = async (email: string, password: string): Promise<ServerResponse<{ user: User; token: string }>> => {
   const response = await fetch(`${BASE_URL}/auth/login`, {

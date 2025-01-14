@@ -1,6 +1,6 @@
 import type { Channel, Message, ServerResponse } from "../types";
 
-const BASE_URL = import.meta.env.BE_URL || "http://localhost:3000";
+const BASE_URL = import.meta.env.DEV ? "http://localhost:3000" : "https://randomize-chat-app.nbth.hackclub.app";
 
 export const getChannel = async (id: string): Promise<ServerResponse<Channel>> => {
   const response = await fetch(`${BASE_URL}/channel/${id}`, {
