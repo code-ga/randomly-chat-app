@@ -107,6 +107,15 @@ const WsContextProvider: React.FC = () => {
         setWebsocketClient(client);
         if (roomId) {
           client.send(JSON.stringify({ type: "joinRoom", roomId }));
+        } else if (location.pathname.startsWith("/room/")) {
+          client.send(
+            JSON.stringify({
+              type: "joinRoom",
+              roomId: location.pathname.split("/room/")[1],
+            })
+          );
+        } else if (location.pathname == "/matching" || location.pathname == "/matching/") {
+          client.send(JSON.stringify({ type: "match" }));
         }
       } else if (data.type == "joinRoom") {
         setRoomId(data.roomId);
