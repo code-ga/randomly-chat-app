@@ -12,6 +12,7 @@ export const MatchingPage = () => {
         window.client?.send(JSON.stringify({ type: "match" }));
       }
       if (message.type == "matched") {
+        window.client?.send(JSON.stringify({ type: "joinRoom", roomId: message.roomId }));
         navigate("/room/" + message.roomId);
       }
     });
