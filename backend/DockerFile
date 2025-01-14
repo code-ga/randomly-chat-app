@@ -34,4 +34,4 @@ COPY --from=prerelease /usr/src/app/ .
 # run the app
 USER bun
 EXPOSE 3000/tcp
-ENTRYPOINT [ "bun", "run", "src/index.ts" ]
+ENTRYPOINT ["bunx", "drizzle-kit", "push", "&&", "bun", "run", "src/index.ts" ]
