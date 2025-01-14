@@ -19,7 +19,9 @@ export const wsContext = React.createContext<wsContext>({
 
 export const useWs = () => React.useContext(wsContext);
 
-const URL = "ws://localhost:3000/ws";
+const URL = import.meta.env.DEV
+  ? "wss://randomize-chat-app.nbth.hackclub.app/ws"
+  : "ws://localhost:3000/ws";
 declare global {
   interface Window {
     client?: WebSocket | null;
